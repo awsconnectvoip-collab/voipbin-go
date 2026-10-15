@@ -3,13 +3,20 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/voipbin/voipbin-go"
 	"github.com/voipbin/voipbin-go/gens/voipbin_client"
 )
 
 func main() {
-	client, err := voipbin.NewClient("<your api accesskey here>")
+	accessKey := os.Getenv("VOIPBIN_ACCESS_KEY")
+	if accessKey == "" {
+		fmt.Println("Set VOIPBIN_ACCESS_KEY environment variable before running")
+		os.Exit(1)
+	}
+
+	client, err := voipbin.NewClient(accessKey)
 	if err != nil {
 		panic(err)
 	}
